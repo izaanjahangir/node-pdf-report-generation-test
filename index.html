@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        #map-canvas {
+            width: 500px;
+            height: 350px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>HTML to PDF</h1>
+    <div id="chart"></div>
+    <div id="map-canvas"></div>
+    <table>
+        <thead>
+            <th>Site</th>
+            <th>Site Name</th>
+            <th>Location</th>
+            <th>Status</th>
+        </thead>
+        <tbody>
+            {{#if records}}
+                {{#each records}}
+                    <tr>
+                        <td><img src="{{this.site}}" style="width: 25px;height: 35px;"></img></td>
+                        <td>{{this.siteName}}</td>
+                        <td>{{this.location}}</td>
+                        <td>{{this.status}}</td>
+                    </tr>
+                {{/each}}
+            {{/if}}
+        </tbody>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>        
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>
+
+    <script>
+        $(document).ready(function() {
+            var options = {
+                chart: { type: 'line' },
+                series: [{
+                    name: 'sales',
+                    data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+                }],
+                xaxis: {
+                    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+                }
+            }
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+
+            function initialize() {
+                var myLatLng = new google.maps.LatLng(45.4375, 12.3358),
+                    myOptions = {
+                        zoom: 5,
+                        center: myLatLng,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    },
+                    map = new google.maps.Map(document.getElementById('map-canvas'), myOptions),
+                    marker = new google.maps.Marker({
+                        position: myLatLng,
+                        map: map
+                    });
+
+                marker.setMap(map);
+                moveMarker(map, marker);
+            }
+
+            function moveMarker(map, marker) {
+                //delayed so you can see it move
+                setTimeout(function() {
+                    marker.setPosition(new google.maps.LatLng(45.4375, 12.3358));
+                    map.panTo(new google.maps.LatLng(45.4375, 12.3358));
+                }, 1500);
+            };
+
+            initialize();
+        });
+    </script>
+</body>
+
+</html>

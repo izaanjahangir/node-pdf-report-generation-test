@@ -1,0 +1,36 @@
+<html>
+  <head> </head>
+  <body>
+    <div>
+      <canvas id="myChart"></canvas>
+    </div>
+
+    <div style="display: none" id="json-data">{{ data }}</div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script id="template">
+      window.addEventListener("load", () => {
+        const ctx = document.getElementById("myChart");
+        const jsonData = JSON.parse(
+          document.getElementById("json-data").innerText
+        );
+        Chart.defaults.font.size = 20;
+
+        new Chart(ctx, {
+          type: "line",
+          data: jsonData,
+          options: {
+            animation: false,
+            
+            scales: {
+              y: {
+                beginAtZero: true,
+               
+              },
+            },
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
